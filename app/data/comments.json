@@ -1,0 +1,16 @@
+[{
+    "id": 1,
+    "author": "guest1",
+    "message": "comment message 1",
+    "date": "06.06.2014 12:33:22"
+}, {
+    "id": 2,
+    "author": "guest2",
+    "message": "comment message 2",
+    "date": "06.06.2014 14:33:22"
+}, {
+    "id": 3,
+    "author": "guest3",
+    "message": "comment message 3",
+    "date": "06.06.2014 15:33:22"
+}]
