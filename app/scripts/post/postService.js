@@ -14,6 +14,7 @@ define(['angular'], function(angular) {
                 throw "user not logged in";
             }
             var posts = getAll();
+            delete post.comments; // comments can be added on view but are stored in separate structure
             if (post.id) {
                 for (var i = 0; i < posts.length; i++) {
                     var p = posts[i];

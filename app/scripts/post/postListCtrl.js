@@ -1,29 +1,24 @@
-define(['angular', 'auth/authService'], function(angular) {
+define(['angular', 'auth/authService', 'utils/goClickDirective'], function(angular) {
     'use strict';
 
     var moduleName = 'angularTestApp.controllers.PostListCtrl';
-    var postsCtrl = angular.module(moduleName, []);
+    var postsCtrl = angular.module(moduleName, ['angularTestApp.utils']);
 
     function PostListCtrl($scope, $http, Post, Comment, AuthService) {
 
-        var PAGE_SIZE = 5;
+        var DEFAULT_PAGE_SIZE = 5;
 
         $scope.pagination = {
             currentPage: 0,
-            pageSize: PAGE_SIZE,
+            pageSize: DEFAULT_PAGE_SIZE,
             itemCount: Post.getCount(),
-            pageCount: Math.ceil(Post.getCount() / PAGE_SIZE)
+            pageCount: Math.ceil(Post.getCount() / DEFAULT_PAGE_SIZE)
         };
 
         $scope.hasNextPage = false;
         $scope.hasPrevPage = false;
 
         $scope.showComments = {};
-
-        $scope.comment = {
-            author: AuthService.getUserLogin(),
-            message: ''
-        };
 
         $scope.changePage = function(diff) {
             $scope.pagination.currentPage += diff;
@@ -37,26 +32,36 @@ define(['angular', 'auth/authService'], function(angular) {
         $scope.toggleComments = function(post) {
             var postId = post.id;
             $scope.showComments[postId] = !$scope.showComments[postId];
-            if (post.commentsCount > 0 && $scope.showComments[postId]) {
+            if (post.commentsCount > 0 && $scope.showComments[postId]) { // get comments on show only if count > 0                                
                 post.comments = Comment.getForPost(postId);
+                post.newComment = {};
+                post.newComment.author = AuthService.getUserLogin();
             }
         };
 
         $scope.addComment = function(post, comment) {
-            if (!this.commentForm.$invalid) {
+            if (this.commentForm.$valid) {
+                comment = angular.copy(comment); // comment object is from model, cannot be saved directly
                 Comment.save(post.id, comment);
                 if (!post.comments) {
                     post.comments = [];
                 }
                 post.comments.push(comment);
                 post.commentsCount = post.commentsCount + 1;
-                $scope.comment = {};
+                post.newComment.message = "";
                 this.commentForm.$setPristine(true);
             }
         };
 
+        $scope.updatePageSize = function() {
+            $scope.pagination.pageCount = Math.ceil(Post.getCount() / $scope.pagination.pageSize);
+            $scope.pagination.currentPage = 0;
+            $scope.changePage(0);
+        };
+
         $scope.isLoggedIn = AuthService.isLoggedIn();
         $scope.login = AuthService.getUserLogin();
+
         $scope.logout = function() {
             AuthService.logout();
             $scope.isLoggedIn = false;
@@ -72,23 +77,6 @@ define(['angular', 'auth/authService'], function(angular) {
     }
 
     postsCtrl.controller('PostListCtrl', ['$scope', '$http', 'Post', 'Comment', 'AuthService', PostListCtrl]);
-
-    // http://stackoverflow.com/questions/15847726/is-there-a-simple-way-to-use-button-to-navigate-page-as-a-link-does-in-angularjs
-    postsCtrl.directive('goClick', function($location) {
-        return function(scope, element, attrs) {
-            var path;
-
-            attrs.$observe('goClick', function(val) {
-                path = val;
-            });
-
-            element.bind('click', function() {
-                scope.$apply(function() {
-                    $location.path(path);
-                });
-            });
-        };
-    });
 
     return moduleName;
 });

@@ -1,37 +1,37 @@
 <h1>Posts</h1>
 <div>
-	<a href="#/login" ng-show="!isLoggedIn">Login</a>
-	<span ng-show="isLoggedIn">Hello <b>{{login}}</b>, <a href="javascript:void(0)" ng-click="logout()">click here to log out</a></span>
+	<a href="#/login" data-ng-show="!isLoggedIn">Login</a>
+	<span data-ng-show="isLoggedIn">Hello <b>{{login}}</b>, <a href="javascript:void(0)" data-ng-click="logout()">click here to log out</a></span>
 </div>
 <ul>
-	<li ng-repeat="post in posts">
+	<li data-ng-repeat="post in posts">
 		<article>
-			<h2>{{post.date | date:'dd.MM.yyyy HH:mm:ss'}} - {{post.title}} <a ng-show="isLoggedIn" ng-href='#/post/{{post.id}}'>(edit)</a></h2>
+			<h2>{{post.date | date:'dd.MM.yyyy HH:mm:ss'}} - {{post.title}} <a data-ng-show="isLoggedIn" data-ng-href='#/post/{{post.id}}'>(edit)</a></h2>
 			<p>{{post.body}}</p>
 			<footer>
 				<div style="float: left">
 					<span>by {{post.author}}</span>
-					<span ng-show="post.edited"> (last edit - {{post.edited | date:'dd.MM.yyyy HH:mm:ss'}})</span>
+					<span data-ng-show="post.edited"> (last edit - {{post.edited | date:'dd.MM.yyyy HH:mm:ss'}})</span>
 				</div>
 				<div style="float: right">
-					<a href="javascript:void(0)" ng-click="toggleComments(post)">{{post.commentsCount}} comments</a>
+					<a href="javascript:void(0)" data-ng-click="toggleComments(post)">{{post.commentsCount}} comments</a>
 				</div>
 				<div style="clear: both"></div>
 			</footer>
 		</article>
-		<ul ng-show="showComments[{{post.id}}]">
-			<li ng-hide="post.commentsCount > 0">
+		<ul data-ng-show="showComments[{{post.id}}]">
+			<li data-ng-hide="post.commentsCount > 0">
 				There is no comments yet.
 			</li>
-			<li ng-repeat="comment in post.comments">
+			<li data-ng-repeat="comment in post.comments">
 				{{comment.author}} - {{comment.date | date:'dd.MM.yyyy HH:mm:ss'}}
 				<p>{{comment.message}}</p>
 			</li>
 			<li>
-				<form novalidate ng-submit="addComment(post, comment)" name="commentForm">
-					<label>Author: <input type="text" name="author" ng-model="comment.author" required /></label>
+				<form novalidate data-ng-submit="addComment(post, post.newComment)" name="commentForm">
+					<label>Author: <input type="text" name="author" data-ng-model="post.newComment.author" required /></label>
 					<BR/>
-					<label>Comment: <input type="text" name="message" ng-model="comment.message" required /></label>
+					<label>Comment: <input type="text" name="message" data-ng-model="post.newComment.message" required /></label>
 					<BR/>
 					<button type="submit">Add comment</button>
 				</form>
@@ -40,7 +40,16 @@
 	</li>
 </ul>
 <div style="text-align: center">
-	<button ng-show="hasPrevPage" ng-click="changePage(-1)">Previous</button>
-	<button ng-show="isLoggedIn" go-click="/post/new">New post</button>
-	<button ng-show="hasNextPage" ng-click="changePage(1)">Next</button>
+	<button data-ng-show="hasPrevPage" data-ng-click="changePage(-1)">Previous</button>
+	<button data-ng-show="isLoggedIn" data-go-click="/post/new">New post</button>
+	<button data-ng-show="hasNextPage" data-ng-click="changePage(1)">Next</button>
 </div>
+<BR/>
+<label>
+	Posts per page:
+	<select data-ng-model="pagination.pageSize" data-ng-change="updatePageSize()">
+		<option>5</option>
+		<option>10</option>
+		<option>15</option>
+	</select>
+</label>

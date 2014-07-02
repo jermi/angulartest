@@ -1,8 +1,8 @@
 <h1>Login</h1>
-<form novalidate ng-submit="submitLogin()">
-	<span ng-show="error ? true : false" style="color: red">{{error}}<br/></span>
-	<label>Login: <input type="text" ng-model="login" required /></label><br/>
-	<label>Password: <input type="text" ng-model="password" required /></label><br/>
+<form novalidate data-ng-submit="submitLogin()">
+	<span data-ng-show="error ? true : false" style="color: red">{{error}}<br/></span>
+	<label>Login: <input type="text" data-ng-model="login" required /></label><br/>
+	<label>Password: <input type="text" data-ng-model="password" required /></label><br/>
 	<button type="submit">Login</button>
-	<button ng-click="cancel()">Cancel</button>
+	<button data-ng-click="cancel()">Cancel</button>
 </form>
