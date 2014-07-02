@@ -23,7 +23,7 @@
 			<li data-ng-hide="post.commentsCount > 0">
 				There is no comments yet.
 			</li>
-			<li data-ng-repeat="comment in post.comments">
+			<li data-ng-repeat="comment in post.comments" data-hover-highlight>
 				{{comment.author}} - {{comment.date | date:'dd.MM.yyyy HH:mm:ss'}}
 				<p>{{comment.message}}</p>
 			</li>

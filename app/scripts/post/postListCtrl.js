@@ -1,4 +1,4 @@
-define(['angular', 'auth/authService', 'utils/goClickDirective'], function(angular) {
+define(['angular', 'auth/authService', 'utils/goClickDirective', 'utils/hoverHightlightDirective'], function(angular) {
     'use strict';
 
     var moduleName = 'angularTestApp.controllers.PostListCtrl';
@@ -27,6 +27,7 @@ define(['angular', 'auth/authService', 'utils/goClickDirective'], function(angul
             $scope.posts = Post.list(start, count);
             $scope.hasNextPage = hasPage(1);
             $scope.hasPrevPage = hasPage(-1);
+            $scope.showComments = {};
         };
 
         $scope.toggleComments = function(post) {
