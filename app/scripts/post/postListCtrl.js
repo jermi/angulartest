@@ -31,9 +31,12 @@ define(['angular', 'auth/authService', 'utils/goClickDirective'], function(angul
 
         $scope.toggleComments = function(post) {
             var postId = post.id;
-            $scope.showComments[postId] = !$scope.showComments[postId];
-            if (post.commentsCount > 0 && $scope.showComments[postId]) { // get comments on show only if count > 0                                
+
+            var showingCommnets = $scope.showComments[postId] = !$scope.showComments[postId];
+            if (post.commentsCount > 0 && showingCommnets) { // get comments on show only if count > 0                                
                 post.comments = Comment.getForPost(postId);
+            }
+            if (showingCommnets) {
                 post.newComment = {};
                 post.newComment.author = AuthService.getUserLogin();
             }
