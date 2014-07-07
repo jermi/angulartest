@@ -1,11 +1,11 @@
 define(['angular'], function(angular) {
     'use strict';
 
-    var moduleName = 'angularTestApp.utils';
-    var utilsModule = angular.module(moduleName, []);
+    var moduleName = 'angularTestApp.utils.hoverHighlight';
+    var hoverHighlightModule = angular.module(moduleName, []);
 
     // http://stackoverflow.com/questions/15847726/is-there-a-simple-way-to-use-button-to-navigate-page-as-a-link-does-in-angularjs
-    utilsModule.directive('hoverHighlight', function($location) {
+    hoverHighlightModule.directive('hoverHighlight', function($location) {
         return function(scope, element, attrs) {
 
             element.on('mouseenter', function() {

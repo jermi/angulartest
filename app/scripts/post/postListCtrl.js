@@ -1,8 +1,8 @@
-define(['angular', 'auth/authService', 'utils/goClickDirective', 'utils/hoverHightlightDirective'], function(angular) {
+define(['angular', 'auth/authService', 'utils/goClickDirective', 'utils/hoverHightlightDirective'], function(angular, authService, goClickDirective, hoverHightlightDirective) {
     'use strict';
 
     var moduleName = 'angularTestApp.controllers.PostListCtrl';
-    var postsCtrl = angular.module(moduleName, ['angularTestApp.utils']);
+    var postsCtrl = angular.module(moduleName, [goClickDirective, hoverHightlightDirective]);
 
     function PostListCtrl($scope, $http, Post, Comment, AuthService) {
 
